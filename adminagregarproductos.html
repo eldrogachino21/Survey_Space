@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="shortcut icon" href="#" />      
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="styles.css">    
+    <title>Ingresar productos Admin</title>   
+   
+    
+  </head>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd; ">
+      <a class="navbar-brand" href="index.html">Farmacia Rosario</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#carouselExampleIndicators">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#jarabe">Jarabe</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#pastillas">Pastillas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#comprimidos">Capsulas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#polvos">Polvos</a>
+          </li>
+        </ul>
+        <form class="form-inline">
+                <a class="text-black-50 nav-link" href="cart.html">
+                  <img width="30" height="30" src="imgadm/carrito.png" alt="carrito" href="cart.html">
+                  <i style="color:black;" id="cart_n"></i> </a> 
+          
+            <a  id="usuario" class="nav-link "href="#">
+            <img  width="30" height="30"src="imgadm/user.png"  onclick="cerrar()" href="index.html" alt="">
+                   <i style="color:black;" ></i></a> 
+                    
+        </form>
+      </div>
+    </nav>
+  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
+  
+  </header>
+  <body onload="render()">         
+    <div id="loading">
+      <img  id="loading-image" src="https://media.giphy.com/media/VseXvvxwowwCc/giphy.gif?cid=ecf05e479gc9i290l2a0if7jnsj5n20hmwc50kouarq7mzi8&rid=giphy.gif&ct=g" alt="Loading..." />
+    </div>
+  
+      <div id="hola"class="container">
+        <div class="row">
+            <div class="col-lg-8">                
+                <button id="btnNuevo" class="btn btn-info" data-toggle="tooltip" title="Nuevo Producto"><svg class="bi bi-plus-circle-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4a.5.5 0 0 0-1 0v3.5H4a.5.5 0 0 0 0 1h3.5V12a.5.5 0 0 0 1 0V8.5H12a.5.5 0 0 0 0-1H8.5V4z"/></svg></button>               
+                <!--Modal-->
+                <div class="modal fade" id="modalAltaEdicion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-light">
+                                <h5 class="modal-title" id="exampleModalLabel">Agregar / Editar </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form>
+                                <div class="modal-body">
+                                    <div align="center">
+                                        <div class="container">
+                                            <img width="100px" height="100px" src="" alt="" id="image">  
+                                        </div>
+                                        <div id="progreso">
+                                        </div>
+                                        <div class="container">
+                                            <input type="file" id="file" required>
+                                        </div>
+                                    </div>
+                                     <!-- ID que vamos a recibir de firebase -->
+                                    <div class="form-group">                                    
+                                    <label>Nombre</label>
+                                    <input id="nombre" type="text" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">                                    
+                                    <label>Categoria</label>
+                                    <select class="form-select" id="categoria" type="text" aria-label="Default select example" required>
+                                      <option selected>Open this select menu</option>
+                                      <option value="jarabe">Jarabe</option>
+                                      <option value="pastillas">Pastillas</option>
+                                      <option value="polvos">Polvos</option>
+                                      <option value="capsulas">Capsulas</option>
+
+                                    </select>
+                                    </div>      
+                                    <div class="form-group">
+                                    <label>Descripción</label>
+                                    <input id="descripcion" type="text" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Cantidad</label>
+                                        <input id="cantidad" type="number"  class="form-control" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                      
+                                          <label>Fecha de caducidad</label>
+                                          
+                                          
+      
+                                          
+                                          <input id="fechacaducidad" type="date"  value=""    class="form-control" required>
+                                          
+                                          </div>
+                                    <div class="form-group">
+
+                                    <label>Fecha de creacion</label>
+                                    
+                                    
+
+                                    
+                                    <input id="fecha" type="date"  value=""    class="form-control" required>
+                                    
+                                    </div>
+                                    <div class="form-group">
+                                    <label>Hora</label>
+                                    <input id="hora" step="1"type="time" class="form-control" required>
+
+                                    </div>
+                                    <div class="form-group">                                    
+                                    <label>Precio</label>
+                                    <input id="precio" type="number" class="form-control" required>
+                                    </div>  
+                                    
+                                                                      
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" tabindex="2">Cancelar</button>
+                                    <button type="submit" value="btnGuardar" class="btn btn-primary" translate="1">Guardar</button>
+                                </div>
+                            </form>
+                    </div>
+                </div>
+                </div>
+                
+
+                <style>
+
+#loading {
+  position: fixed;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  text-align: center;
+  opacity: 0.7;
+  background-color: #fff;
+  z-index: 99;
+}
+
+#loading-image {
+  position: absolute;
+  top: 150px;
+  left: 29%;
+  z-index: 100;
+  width: 40% ;
+  height: 59%;
+}
+
+
+@media
+	  only screen 
+    and (max-width: 760px), (min-device-width: 768px) 
+    and (max-device-width: 1024px)  {
+
+      #loading-image {
+  position: absolute;
+  top: 200px;
+  left: 25%;
+  z-index: 100;
+  width: 50% ;
+  height: 30%;
+}
+		}
+                  
+table th {
+    background: #224b55;
+    color: white;
+}
+        @media
+	  only screen 
+    and (max-width: 760px), (min-device-width: 768px) 
+    and (max-device-width: 1024px)  {
+
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr {
+           
+			display: block;
+		}
+      
+        
+        
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr {
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+
+    tr {
+      margin: 0 0 1rem 0;
+    }
+      
+    tr:nth-child(odd) {
+      background: #ccc;
+    }
+    
+		td {
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #eee;
+			position: relative;
+			padding-left: 10%;
+            text-align: center;
+		}
+
+		td:before {
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: -10px;
+			left: 1px;
+			
+			
+			white-space: nowrap;
+           
+		}
+       
+
+
+		/*
+		Label the data
+    You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+		*/
+		td:nth-of-type(1):before { content: "NOMBRE "; color:cornsilk;  background-color: #224b55; text-align: center; width:100%;}
+		td:nth-of-type(2):before { content: "CATEGORIA";  color:cornsilk;  background-color: #224b55; text-align: center; width:100%; }
+		td:nth-of-type(3):before { content: "PRECIO";   color:cornsilk;  background-color: #224b55; text-align: center; width:100%;}
+		td:nth-of-type(4):before { content: "DESCRIPCION";  color:cornsilk;  background-color: #224b55; text-align: center; width:100%;}
+		td:nth-of-type(5):before { content: "FECHA CADUCIDAD";  color:cornsilk;  background-color: #224b55; text-align: center; width:100%;}
+
+		td:nth-of-type(6):before { content: "FECHA";  color:cornsilk;  background-color: #224b55; text-align: center; width:100%;}
+    
+		td:nth-of-type(7):before { content: "HORA";  color:cornsilk;  background-color: #224b55; text-align: center; width:100%;}
+		td:nth-of-type(8):before { content: "CANTIDAD"; color:cornsilk;  background-color: #224b55; text-align: center; width:100%; }
+		td:nth-of-type(10):before { content: "";  color:cornsilk;  background-color: #224b55; text-align: center; width:100%;}
+		td:nth-of-type(11):before { content: "CONTROLES"; color:cornsilk;  background-color: #224b55; text-align: center; width:100%; }
+	}
+
+                </style>
+                <div class="container" >
+                <table id="tablaProductos" class="table table-success table-striped" style="width:100%">
+                <thead class="text-center">
+                        <tr role = "row">
+                            
+                            <th></th>    
+                            <th role="columnheader">NOMBRE</th>                        
+                            <th role="columnheader">CATEGORIA</th>
+                            <th role="columnheader">PRECIO</th>
+                            <th role="columnheader">DESCRIPCION</th>
+                            <th role="columnheader">FECHA CADUCIDAD</th>                                                          
+                            <th role="columnheader">FECHA</th>                                                          
+                            <th role="columnheader">HORA</th>
+                            <th role="columnheader">CANTIDAD</th>
+                            <th role="columnheader">PID</th>
+                            <th role="columnheader">IMAGEN</th>
+                            <th role="columnheader">CONTROLES</th>
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>                           
+                    </tbody>   
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>     
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+   
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.14.2/dist/sweetalert2.all.min.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase.js"></script>
+
+    <!-- datatables -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <script>
+    var config = {
+        apiKey: "AIzaSyD8WXHgN7DP3wGpk6kP4wWt8v3vuWNMkN4",
+          authDomain: "proyectomodular-6980b.firebaseapp.com",
+          databaseURL: "https://proyectomodular-6980b-default-rtdb.firebaseio.com",
+          projectId: "proyectomodular-6980b",
+          storageBucket: "proyectomodular-6980b.appspot.com",
+          messagingSenderId: "964515011775",
+          appId: "1:964515011775:web:247b58a7a5e14f8e0bfa0a",
+          measurementId: "G-CP7LKM240X"
+      };
+      firebase.initializeApp(config);
+      </script>
+     <script type="text/javascript" src="js/adminagregarproductos.js">  </script>
+     <script>
+      $(window).on('load', function () {
+       $('#loading').hide();
+     }) 
+   </script>
+  </body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar direccion</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- BOOTSWATCH -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/pulse/bootstrap.min.css">
+  
+    <!-- ANIMATE CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />
+    <link rel="stylesheet" href="static/css/chat.css">
+    <link rel="stylesheet" href="static/css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+
+</head>
+<body onload="render()">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #5e7180; ">
+          <a class="navbar-brand" href="index.html">Farmacia Rosario</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav mr-auto">
+              
+            </ul>
+            <form class="form-inline">
+                    <a style="color:white;" class=" nav-link" href="#">
+                      <img   width="30" height="30" src="imgadm/carrito.png" alt="carrito" href="#">
+                       <i style="color:white;" id="cart_n"></i> </a> 
+              
+                <a style="color:white;" class="nav-link "href="#">
+                <img  width="30" height="30"src="imgadm/user.png" href="index.html" onclick="cerrar()" alt="">
+                       <i style="color:white;" id="usuario"></i></a>      
+            </form>
+          </div>
+        </nav>
+      
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
+       <!-- FIREBASE -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.15.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+     
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.14.2/dist/sweetalert2.all.min.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase.js"></script>
+
+    <!-- datatables -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+      </header> 
+
+
+<div class="container" style="width:50%; height:50%;">
+    
+        <div class="modal-body "style="background-color: aliceblue;">
+            <form id="form">
+             <!-- ID que vamos a recibir de firebase -->
+            <div class="form-group">
+                <label for="">Pais</label>
+                <select id="pais"   class="form-control" name="pais">
+                    <option value="no">Seleccione uno...</option>
+                    <option value="Mexico">Mexico</option>
+                </select>
+                    
+            </div>
+            <label for="">Estado</label>
+            <div class="form-group" >
+                <select id="estado"  class="form-control" name="estado">
+                    <option value="no">Seleccione uno...</option>
+                    <option value="Aguascalientes">Aguascalientes</option>
+                    <option value="Baja California">Baja California</option>
+                    <option value="Baja California Sur">Baja California Sur</option>
+                    <option value="Campeche">Campeche</option>
+                    <option value="Chiapas">Chiapas</option>
+                    <option value="Chihuahua">Chihuahua</option>
+                    <option value="CDMX">Ciudad de México</option>
+                    <option value="Coahuila">Coahuila</option>
+                    <option value="Colima">Colima</option>
+                    <option value="Durango">Durango</option>
+                    <option value="Estado de México">Estado de México</option>
+                    <option value="Guanajuato">Guanajuato</option>
+                    <option value="Guerrero">Guerrero</option>
+                    <option value="Hidalgo">Hidalgo</option>
+                    <option value="Jalisco">Jalisco</option>
+                    <option value="Michoacán">Michoacán</option>
+                    <option value="Morelos">Morelos</option>
+                    <option value="Nayarit">Nayarit</option>
+                    <option value="Nuevo León">Nuevo León</option>
+                    <option value="Oaxaca">Oaxaca</option>
+                    <option value="Puebla">Puebla</option>
+                    <option value="Querétaro">Querétaro</option>
+                    <option value="Quintana Roo">Quintana Roo</option>
+                    <option value="San Luis Potosí">San Luis Potosí</option>
+                    <option value="Sinaloa">Sinaloa</option>
+                    <option value="Sonora">Sonora</option>
+                    <option value="Tabasco">Tabasco</option>
+                    <option value="Tamaulipas">Tamaulipas</option>
+                    <option value="Tlaxcala">Tlaxcala</option>
+                    <option value="Veracruz">Veracruz</option>
+                    <option value="Yucatán">Yucatán</option>
+                    <option value="Zacatecas">Zacatecas</option>
+                </select>
+            </div>
+            
+            <div class="form-group">                                    
+            <label>Nombre Completo</label>
+            <input id="nombre" type="text" class="form-control" required>
+            </div>
+            <div class="form-group">                                    
+            <label>Direccion de la calle</label>
+            <input id="direccion" type="text" class="form-control" required>
+            </div>      
+            <div class="form-group">
+            <label>Descripción</label>
+            <input id="descripcion" type="text" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>codigo postal </label>
+                <input id="codigopostal" type="number"  class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="">Numero de telefono</label>
+                <input id="telefono" type="Numbre " class="form-control" required>
+            </div>
+
+           
+            </div>
+            
+            
+                                              
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="registrar()" class="btn btn-secondary" data-dismiss="modal" tabindex="2">Cancelar</button>
+            <button type="submit"   class="btn btn-primary" translate="1">Guardar</button>
+        </div>
+    </form>
+</div><script src="js/agregardireccion.js"></script>
+<script>
+    var config = {
+        apiKey: "AIzaSyD8WXHgN7DP3wGpk6kP4wWt8v3vuWNMkN4",
+          authDomain: "proyectomodular-6980b.firebaseapp.com",
+          databaseURL: "https://proyectomodular-6980b-default-rtdb.firebaseio.com",
+          projectId: "proyectomodular-6980b",
+          storageBucket: "proyectomodular-6980b.appspot.com",
+          messagingSenderId: "964515011775",
+          appId: "1:964515011775:web:247b58a7a5e14f8e0bfa0a",
+          measurementId: "G-CP7LKM240X"
+      };
+      firebase.initializeApp(config);
+      </script>
+</body>
+</html>
